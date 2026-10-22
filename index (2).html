@@ -1,0 +1,1737 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Crop Advisory Zambia</title>
+
+<style>
+:root {
+    --green: #087a38;
+    --dark-green: #075426;
+    --light-green: #e7f5e9;
+    --white: #ffffff;
+    --text: #203329;
+    --muted: #627269;
+    --border: #d8e6dc;
+    --orange: #f4a340;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f8f4;
+    color: var(--text);
+}
+
+header {
+    background: linear-gradient(135deg, #075426, #0c9849);
+    color: white;
+    padding: 28px 6%;
+}
+
+.brand {
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+header h1 {
+    font-size: clamp(28px, 5vw, 44px);
+    margin: 18px 0 10px;
+}
+
+header p {
+    max-width: 700px;
+    line-height: 1.7;
+    color: #effff2;
+}
+
+.header-tag {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border: 1px solid #b9e8c8;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 5%;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+nav button {
+    background: white;
+    color: var(--dark-green);
+    border: 1px solid var(--border);
+    padding: 11px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+nav button.active,
+nav button:hover {
+    background: var(--green);
+    color: white;
+}
+
+main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 28px 20px 50px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+h2 {
+    color: var(--dark-green);
+    margin-top: 0;
+}
+
+h3 {
+    color: var(--dark-green);
+}
+
+.intro {
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 22px;
+}
+
+.hero-card {
+    background: linear-gradient(120deg, #087a38, #16a45a);
+    border-radius: 16px;
+    color: white;
+    padding: 30px;
+    margin-bottom: 22px;
+}
+
+.hero-card h2 {
+    color: white;
+    font-size: 28px;
+}
+
+.hero-card p {
+    color: #f0fff4;
+    line-height: 1.7;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 16px;
+    margin: 22px 0;
+}
+
+.card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 12px #153e1b08;
+}
+
+.card .emoji {
+    font-size: 30px;
+}
+
+.card h3 {
+    margin-bottom: 8px;
+}
+
+.card p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.stat {
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--green);
+    margin-top: 8px;
+    overflow-wrap: anywhere;
+}
+
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    margin: 20px 0;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #bdcec2;
+    border-radius: 8px;
+    background: white;
+    color: #17251c;
+    font-size: 15px;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid #5bbd7b;
+    border-color: var(--green);
+}
+
+button.primary {
+    background: var(--green);
+    color: white;
+    border: 0;
+    padding: 13px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 18px;
+}
+
+button.primary:hover {
+    background: var(--dark-green);
+}
+
+button.secondary {
+    background: white;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.result {
+    display: none;
+    background: var(--light-green);
+    border-left: 5px solid var(--green);
+    border-radius: 8px;
+    padding: 18px;
+    margin-top: 20px;
+    line-height: 1.7;
+}
+
+.result.show {
+    display: block;
+}
+
+.notice {
+    background: #fff4df;
+    color: #65400a;
+    border-left: 4px solid var(--orange);
+    border-radius: 8px;
+    padding: 14px;
+    margin: 18px 0;
+    line-height: 1.6;
+}
+
+.success {
+    background: #e7f5e9;
+    border-left: 4px solid var(--green);
+    padding: 14px;
+    border-radius: 8px;
+    margin: 12px 0;
+    line-height: 1.6;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background: white;
+    margin-top: 12px;
+}
+
+th, td {
+    border: 1px solid var(--border);
+    padding: 12px;
+    text-align: left;
+    line-height: 1.5;
+}
+
+th {
+    background: var(--dark-green);
+    color: white;
+}
+
+tbody tr:nth-child(even) {
+    background: #f2f8f3;
+}
+
+.task {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 13px;
+    margin: 9px 0;
+    line-height: 1.5;
+}
+
+.task input {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: var(--green);
+}
+
+.task label {
+    font-weight: normal;
+    margin: 0;
+}
+
+.weather-day {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.weather-day strong {
+    color: var(--dark-green);
+}
+
+.small {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+footer {
+    background: #073c20;
+    color: white;
+    text-align: center;
+    padding: 24px 15px;
+    line-height: 1.7;
+}
+
+footer p {
+    color: #e2f5e7;
+}
+
+@media (max-width: 600px) {
+    nav {
+        position: static;
+    }
+
+    nav button {
+        flex: 1 1 42%;
+    }
+
+    main {
+        padding: 20px 13px 35px;
+    }
+
+    .panel {
+        padding: 17px;
+    }
+
+    header {
+        padding: 25px 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="brand">D'Tech Solutions · Agriculture</div>
+    <h1>🌱 Smart Crop Advisory</h1>
+    <p>
+        Make better farming decisions with weather forecasts, crop recommendations,
+        planting schedules and practical agricultural guidance designed for Zambia.
+    </p>
+    <span class="header-tag">🇿🇲 Built for Zambian farmers</span>
+</header>
+
+<nav>
+    <button class="active" data-page="home">Home</button>
+    <button data-page="weather">Weather Forecast</button>
+    <button data-page="recommend">Smart Recommendations</button>
+    <button data-page="soiltest">Soil Testing & Crop Matching</button>
+    <button data-page="calendar">Planting Calendar</button>
+    <button data-page="cropadvice">Crop Advice</button>
+    <button data-page="farming">Farming Guide</button>
+</nav>
+
+<main>
+
+<!-- HOME -->
+<section id="home" class="page active">
+    <div class="hero-card">
+        <h2>Grow smarter. Plan better. Harvest more.</h2>
+        <p>
+            Explore crop options, check forecast conditions and plan the farming
+            season around your location and field requirements.
+        </p>
+        <button class="secondary" onclick="showPage('recommend')">
+            Get Crop Recommendations →
+        </button>
+    </div>
+
+    <div class="panel">
+        <h2>Start with your location</h2>
+        <p class="intro">
+            Select your town to use the weather and farming tools.
+        </p>
+        <div class="form-grid">
+            <div>
+                <label for="homeLocation">Your location</label>
+                <select id="homeLocation"></select>
+            </div>
+            <div>
+                <label for="farmerName">Farmer name (optional)</label>
+                <input id="farmerName" placeholder="Enter your name">
+            </div>
+        </div>
+        <button class="primary" onclick="saveLocation()">Save Preferences</button>
+        <div id="homeMessage" class="result"></div>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <div class="emoji">🌦️</div>
+            <h3>Weather Forecast</h3>
+            <p>Review seven-day rainfall and temperature forecasts for your selected town.</p>
+            <button class="secondary" onclick="showPage('weather')">Check Weather</button>
+        </div>
+        <div class="card">
+            <div class="emoji">🌽</div>
+            <h3>Crop Recommendations</h3>
+            <p>Compare crop options using soil, water availability and farming goals.</p>
+            <button class="secondary" onclick="showPage('recommend')">Explore Crops</button>
+        </div>
+        <div class="card">
+            <div class="emoji">🗓️</div>
+            <h3>Planting Calendar</h3>
+            <p>Estimate harvest timing and organise important farming activities.</p>
+            <button class="secondary" onclick="showPage('calendar')">Plan Season</button>
+        </div>
+    </div>
+
+    <div class="notice">
+        <strong>Important:</strong> This is an early advisory tool. Its recommendations
+        are general guidance, not guaranteed yield predictions or a substitute for
+        local agricultural extension services.
+    </div>
+</section>
+
+<!-- WEATHER -->
+<section id="weather" class="page">
+    <h2>🌦️ Seven-Day Weather Forecast</h2>
+    <p class="intro">
+        View forecast temperatures, rainfall and precipitation probability.
+        An internet connection is required to retrieve live forecast data.
+    </p>
+
+    <div class="panel">
+        <div class="form-grid">
+            <div>
+                <label for="weatherLocation">Forecast location</label>
+                <select id="weatherLocation"></select>
+            </div>
+        </div>
+        <button class="primary" id="loadWeather">Load Weather Forecast</button>
+        <p id="weatherStatus" role="status" aria-live="polite"></p>
+    </div>
+
+    <div id="weatherSummary" class="cards"></div>
+    <div id="weatherResults" class="cards"></div>
+
+    <div id="weatherActions" class="panel" style="display:none">
+        <h3>Weather Alerts and Farming Actions</h3>
+        <div id="weatherAdvice"></div>
+    </div>
+
+    <p class="small">
+        Source: Open-Meteo forecast API. Forecast values can change and may not
+        capture conditions on an individual farm.
+    </p>
+</section>
+
+<!-- RECOMMENDATIONS -->
+<section id="recommend" class="page">
+    <h2>🌱 Smart Crop Recommendations</h2>
+    <p class="intro">
+        Enter your field conditions to receive a preliminary crop assessment.
+    </p>
+
+    <div class="panel">
+        <div class="form-grid">
+            <div>
+                <label for="recLocation">Location</label>
+                <select id="recLocation"></select>
+            </div>
+            <div>
+                <label for="soil">Soil type</label>
+                <select id="soil">
+                    <option value="unknown">Not sure</option>
+                    <option value="sandy">Sandy</option>
+                    <option value="sandyloam">Sandy loam</option>
+                    <option value="loam">Loam</option>
+                    <option value="clay">Clay</option>
+                    <option value="waterlogged">Heavy or waterlogged</option>
+                </select>
+            </div>
+            <div>
+                <label for="water">Water availability</label>
+                <select id="water">
+                    <option value="rain">Rainfall only</option>
+                    <option value="reliable">Reliable rainfall</option>
+                    <option value="irrigation">Irrigation available</option>
+                    <option value="limited">Limited rainfall</option>
+                </select>
+            </div>
+            <div>
+                <label for="goal">Main farming goal</label>
+                <select id="goal">
+                    <option value="food">Household food</option>
+                    <option value="commercial">Commercial production</option>
+                    <option value="drought">Drought resilience</option>
+                    <option value="fertility">Improve soil fertility</option>
+                </select>
+            </div>
+            <div>
+                <label for="experienceCrop">Crop you are considering</label>
+                <select id="experienceCrop"></select>
+            </div>
+        </div>
+        <button class="primary" id="getRecommendations">Generate Recommendations</button>
+    </div>
+
+    <div id="recommendationResults"></div>
+</section>
+
+
+<!-- SOIL TESTING AND CROP MATCHING -->
+<section id="soiltest" class="page">
+    <h2>🧪 Soil Testing and Crop Matching</h2>
+    <p class="intro">Describe your field and enter any results from a soil test. The tool provides a preliminary crop match; it does not physically test soil or diagnose nutrient deficiencies.</p>
+
+    <div class="notice">
+        <strong>Important distinction:</strong> Soil colour, texture, drainage and crop history are observations supplied by you. pH and nutrient values are treated as measured results only when you enter them from a soil test or suitable testing device. Leaving a result blank means it is unknown—not zero.
+    </div>
+
+    <form id="soilAssessmentForm" class="panel">
+        <h3>1. Farm and soil observations</h3>
+        <div class="form-grid">
+            <div><label for="stName">Farmer name (optional)</label><input id="stName" autocomplete="name" placeholder="Your name"></div>
+            <div><label for="stPhone">Phone number (optional)</label><input id="stPhone" type="tel" autocomplete="tel" placeholder="e.g. 09XXXXXXXX"></div>
+            <div><label for="stLocation">Farm location</label><select id="stLocation" required></select></div>
+            <div><label for="stFieldSize">Farm size in hectares (optional)</label><input id="stFieldSize" type="number" min="0" step="0.01" placeholder="e.g. 1.5"></div>
+            <div><label for="stTexture">Soil texture</label><select id="stTexture" required>
+                <option value="unknown">Not sure</option><option value="sandy">Sandy</option><option value="sandyloam">Sandy loam</option><option value="loam">Loam</option><option value="clay">Clay / heavy clay</option>
+            </select></div>
+            <div><label for="stColour">Soil colour observed</label><select id="stColour">
+                <option value="unknown">Not sure</option><option>Dark brown / black</option><option>Red / reddish brown</option><option>Yellow / yellowish brown</option><option>Grey</option><option>Very pale / whitish</option><option>Other</option>
+            </select></div>
+            <div><label for="stDrainage">Drainage after rain</label><select id="stDrainage" required>
+                <option value="unknown">Not sure</option><option value="good">Water drains away reasonably well</option><option value="moderate">Some water remains for a while</option><option value="poor">Water stands / field gets waterlogged</option><option value="fast">Dries out very quickly</option>
+            </select></div>
+            <div><label for="stCompaction">Soil compaction</label><select id="stCompaction"><option value="unknown">Not sure</option><option value="low">Loose / easy to dig</option><option value="medium">Some hard layers</option><option value="high">Very hard / difficult to dig</option></select></div>
+            <div><label for="stWater">Water available for the crop</label><select id="stWater" required><option value="rain">Rainfall only</option><option value="reliable">Rainfall usually reliable</option><option value="irrigation">Irrigation available</option><option value="limited">Limited / unreliable water</option></select></div>
+            <div><label for="stGoal">Main farming goal</label><select id="stGoal"><option value="food">Household food</option><option value="commercial">Commercial production</option><option value="drought">Drought resilience</option><option value="fertility">Include a soil-fertility improvement goal</option></select></div>
+            <div><label for="stPrevious">What grew in this field last season? (optional)</label><input id="stPrevious" placeholder="e.g. maize, groundnuts, fallow"></div>
+            <div><label for="stIssues">Other observations (optional)</label><input id="stIssues" placeholder="e.g. erosion, crusting, poor growth"></div>
+        </div>
+
+        <h3 style="margin-top:26px">2. Optional measured soil-test results</h3>
+        <p class="small">Only enter values from a soil-test report or testing device. Use the units shown on the report. These values are recorded for context; the website does not assume all laboratories use the same methods or units.</p>
+        <div class="form-grid">
+            <div><label for="stPH">Measured soil pH (optional)</label><input id="stPH" type="number" min="0" max="14" step="0.1" placeholder="e.g. 5.8"></div>
+            <div><label for="stN">Nitrogen result (optional)</label><input id="stN" placeholder="Value as shown on report"></div>
+            <div><label for="stP">Phosphorus result (optional)</label><input id="stP" placeholder="Value as shown on report"></div>
+            <div><label for="stK">Potassium result (optional)</label><input id="stK" placeholder="Value as shown on report"></div>
+            <div><label for="stUnits">Nutrient units / test method (if known)</label><input id="stUnits" placeholder="Copy units from lab report"></div>
+            <div><label for="stLab">Laboratory or test source (optional)</label><input id="stLab" placeholder="Lab, extension office or device"></div>
+        </div>
+        <button class="primary" type="submit">Assess Soil and Match Crops</button>
+    </form>
+
+    <div id="soilAssessmentResults" aria-live="polite"></div>
+
+    <div class="panel">
+        <h3>3. Ask D' Tech Solutions for follow-up</h3>
+        <p>Send your farm details directly to D' Tech Solutions using this online enquiry form. The form service will email your message to our team after you confirm the receiving email address.</p>
+        <form id="soilEnquiryForm">
+            <div class="form-grid">
+                <div><label for="enquiryName">Your name</label><input id="enquiryName" required placeholder="Farmer name"></div>
+                <div><label for="enquiryPhone">Phone number</label><input id="enquiryPhone" required type="tel" placeholder="How can we contact you?"></div>
+                <div><label for="enquiryLocation">Farm location / district</label><input id="enquiryLocation" required placeholder="e.g. Kitwe, Copperbelt"></div>
+                <div><label for="enquiryNeed">What help do you need?</label><select id="enquiryNeed"><option>Help interpreting soil-test results</option><option>Crop selection for my field</option><option>How to arrange a soil test</option><option>General farm advisory</option></select></div>
+            </div>
+            <div style="margin-top:16px"><label for="enquiryMessage">Message (optional)</label><textarea id="enquiryMessage" rows="4" placeholder="Describe your field or ask a question"></textarea></div>
+            <button class="primary" id="sendEnquiryButton" type="submit">Send Enquiry</button>
+        </form>
+        <p class="small">Enquiries are sent through FormSubmit to dktechnologies24@gmail.com. The first submission triggers an email verification step; check your inbox and spam folder and click the activation link before expecting future enquiries.</p>
+        <div id="soilEnquiryStatus" class="result" aria-live="polite"></div>
+    </div>
+</section>
+
+<!-- PLANTING CALENDAR -->
+<section id="calendar" class="page">
+    <h2>🗓️ Crop Planting Calendar</h2>
+    <p class="intro">
+        Plan your planting date, estimate harvest timing and track your farming tasks.
+    </p>
+
+    <div class="panel">
+        <div class="form-grid">
+            <div>
+                <label for="calLocation">Farm location</label>
+                <select id="calLocation"></select>
+            </div>
+            <div>
+                <label for="calCrop">Crop</label>
+                <select id="calCrop"></select>
+            </div>
+            <div>
+                <label for="plantDate">Intended planting date</label>
+                <input type="date" id="plantDate">
+            </div>
+            <div>
+                <label for="farmingMethod">Farming method</label>
+                <select id="farmingMethod">
+                    <option>Rain-fed farming</option>
+                    <option>Irrigated farming</option>
+                </select>
+            </div>
+            <div>
+                <label for="farmSize">Field size in hectares (optional)</label>
+                <input type="number" id="farmSize" min="0" step="0.1" placeholder="e.g. 2">
+            </div>
+        </div>
+        <button class="primary" id="createCalendar">Create My Crop Calendar</button>
+    </div>
+
+    <div id="calendarResults"></div>
+</section>
+
+<!-- CROP ADVICE -->
+<section id="cropadvice" class="page">
+    <h2>🌤️ Crop-Specific Weather Advice</h2>
+    <p class="intro">
+        Review practical precautions for a selected crop. Forecast-based guidance
+        is available when the weather service is reachable.
+    </p>
+
+    <div class="panel">
+        <div class="form-grid">
+            <div>
+                <label for="adviceLocation">Location</label>
+                <select id="adviceLocation"></select>
+            </div>
+            <div>
+                <label for="adviceCrop">Crop</label>
+                <select id="adviceCrop"></select>
+            </div>
+        </div>
+        <button class="primary" id="getCropAdvice">Get Crop Advice</button>
+    </div>
+    <div id="cropAdviceResults"></div>
+</section>
+
+<!-- FARMING GUIDE -->
+<section id="farming" class="page">
+    <h2>📘 Practical Farming Guide</h2>
+    <p class="intro">
+        General reminders for field preparation, crop establishment, crop care and harvest.
+    </p>
+
+    <div class="cards">
+        <div class="card">
+            <div class="emoji">🚜</div>
+            <h3>1. Prepare the Field</h3>
+            <ul>
+                <li>Assess drainage and soil condition.</li>
+                <li>Test soil where possible.</li>
+                <li>Arrange suitable seed and inputs.</li>
+                <li>Protect soil structure and organic matter.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <div class="emoji">🌱</div>
+            <h3>2. Establish the Crop</h3>
+            <ul>
+                <li>Plant when conditions are suitable.</li>
+                <li>Follow variety-specific spacing and depth.</li>
+                <li>Check germination and missing plants.</li>
+                <li>Control weeds early.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <div class="emoji">💧</div>
+            <h3>3. Manage Water</h3>
+            <ul>
+                <li>Monitor soil moisture.</li>
+                <li>Protect fields from waterlogging.</li>
+                <li>Use water efficiently if irrigating.</li>
+                <li>Watch for stress during dry spells.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <div class="emoji">🔍</div>
+            <h3>4. Monitor Crop Health</h3>
+            <ul>
+                <li>Inspect for pests and diseases.</li>
+                <li>Check for nutrient deficiency symptoms.</li>
+                <li>Use locally recommended treatments.</li>
+                <li>Seek expert help when unsure.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <div class="emoji">🌾</div>
+            <h3>5. Harvest and Store</h3>
+            <ul>
+                <li>Check actual crop maturity.</li>
+                <li>Dry produce adequately.</li>
+                <li>Keep storage areas clean and dry.</li>
+                <li>Protect grain from pests and moisture.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="notice">
+        Always follow the seed supplier's instructions and advice from your
+        local agricultural extension officer for crop varieties, fertiliser,
+        pest control and district-specific planting dates.
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <strong>🌱 Smart Crop Advisory Zambia</strong>
+    <p>Supporting informed farming decisions through technology.</p>
+    <p>D'Tech Solutions · Prototype website</p>
+</footer>
+
+<script>
+"use strict";
+
+// --------------------------------------------------
+// LOCATION DATA
+// Coordinates are used to request forecast data.
+// --------------------------------------------------
+const locations = {
+    "Kitwe": [-12.8024, 28.2132],
+    "Ndola": [-12.9587, 28.6366],
+    "Lusaka": [-15.3875, 28.3228],
+    "Chingola": [-12.5289, 27.8838],
+    "Mufulira": [-12.5498, 28.2407],
+    "Luanshya": [-13.1367, 28.4166],
+    "Kasama": [-10.2129, 31.1808],
+    "Chipata": [-13.6333, 32.6500],
+    "Solwezi": [-12.1688, 26.3894],
+    "Livingstone": [-17.8419, 25.8543],
+    "Mongu": [-15.2484, 23.1274],
+    "Mazabuka": [-15.8560, 27.7480],
+    "Mansa": [-11.1998, 28.8943],
+    "Kabwe": [-14.4469, 28.4464],
+    "Lundazi": [-12.2929, 33.1782]
+};
+
+// Crop growing periods and broad seasonal planting months are approximate.
+// Confirm local variety guidance and rainfall before planting.
+const crops = {
+    "Maize": {
+        days: 140,
+        months: [11, 12],
+        soil: "Well-drained loam",
+        water: "Regular moisture, especially around flowering",
+        advice: "Plant when effective rains have started and soil moisture is adequate."
+    },
+    "Groundnuts": {
+        days: 120,
+        months: [11, 12],
+        soil: "Loose, well-drained sandy loam",
+        water: "Moisture during flowering and pod formation",
+        advice: "Avoid waterlogged soil and use suitable crop rotation."
+    },
+    "Soybeans": {
+        days: 125,
+        months: [11, 12],
+        soil: "Well-drained fertile loam",
+        water: "Adequate moisture during flowering and pod filling",
+        advice: "Control weeds early and follow local guidance on inoculation."
+    },
+    "Sorghum": {
+        days: 115,
+        months: [11, 12],
+        soil: "Well-drained soil",
+        water: "Moderate; many varieties tolerate drought better than maize",
+        advice: "Consider locally suitable varieties where rainfall is less reliable."
+    },
+    "Millet": {
+        days: 100,
+        months: [11, 12],
+        soil: "Well-drained sandy or loamy soil",
+        water: "Moderate; relatively drought tolerant",
+        advice: "Prepare a suitable seedbed and control early weeds."
+    },
+    "Common Beans": {
+        days: 90,
+        months: [11, 12],
+        soil: "Well-drained fertile soil",
+        water: "Consistent moisture without waterlogging",
+        advice: "Monitor for pests and disease, particularly in humid conditions."
+    },
+    "Sweet Potatoes": {
+        days: 120,
+        months: [11, 12, 1, 2],
+        soil: "Loose, well-drained soil",
+        water: "Regular moisture during establishment",
+        advice: "Use healthy planting vines and avoid poorly drained fields."
+    },
+    "Cassava": {
+        days: 300,
+        months: [11, 12, 1, 2, 3],
+        soil: "Well-drained soil",
+        water: "Moisture during establishment",
+        advice: "Use healthy cuttings and plant when conditions support establishment."
+    }
+};
+
+let selectedLocation = "Kitwe";
+let lastWeather = null;
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[character]);
+}
+
+function populateSelect(id, values, selected) {
+    const element = document.getElementById(id);
+    element.innerHTML = "";
+
+    values.forEach(value => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        if (value === selected) option.selected = true;
+        element.appendChild(option);
+    });
+}
+
+function setupSelects() {
+    const locationNames = Object.keys(locations);
+    const cropNames = Object.keys(crops);
+
+    [
+        "homeLocation",
+        "weatherLocation",
+        "recLocation",
+        "stLocation",
+        "calLocation",
+        "adviceLocation"
+    ].forEach(id => populateSelect(id, locationNames, "Kitwe"));
+
+    ["experienceCrop", "calCrop", "adviceCrop"].forEach(
+        id => populateSelect(id, cropNames, "Maize")
+    );
+}
+
+function saveLocation() {
+    selectedLocation = document.getElementById("homeLocation").value;
+
+    [
+        "weatherLocation",
+        "recLocation",
+        "stLocation",
+        "calLocation",
+        "adviceLocation"
+    ].forEach(id => {
+        document.getElementById(id).value = selectedLocation;
+    });
+
+    const name = document.getElementById("farmerName").value.trim();
+    const message = name
+        ? `Preferences saved for ${escapeHTML(name)}. Your selected location is ${escapeHTML(selectedLocation)}.`
+        : `Your selected location is ${escapeHTML(selectedLocation)}.`;
+
+    showResult("homeMessage", message);
+}
+
+function showPage(pageId) {
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.toggle("active", page.id === pageId);
+    });
+
+    document.querySelectorAll("nav button").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === pageId);
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.querySelectorAll("nav button").forEach(button => {
+    button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+function showResult(id, html) {
+    const element = document.getElementById(id);
+    element.innerHTML = html;
+    element.classList.add("show");
+}
+
+function formatDate(dateValue, options = {
+    day: "numeric", month: "short", year: "numeric"
+}) {
+    return new Date(dateValue + "T12:00:00").toLocaleDateString("en-GB", options);
+}
+
+function addDays(dateValue, days) {
+    const result = new Date(dateValue + "T12:00:00");
+    result.setDate(result.getDate() + days);
+    return result.toISOString().slice(0, 10);
+}
+
+function monthName(monthNumber) {
+    return new Date(2025, monthNumber - 1, 1)
+        .toLocaleString("en-GB", { month: "long" });
+}
+
+// --------------------------------------------------
+// WEATHER FORECAST
+// Uses the Open-Meteo public forecast API.
+// Internet access is required.
+// --------------------------------------------------
+async function fetchWeather(city) {
+    const [latitude, longitude] = locations[city];
+
+    const url = new URL("https://api.open-meteo.com/v1/forecast");
+    url.search = new URLSearchParams({
+        latitude,
+        longitude,
+        daily: [
+            "temperature_2m_max",
+            "temperature_2m_min",
+            "precipitation_sum",
+            "precipitation_probability_max"
+        ].join(","),
+        timezone: "Africa/Lusaka",
+        forecast_days: "7"
+    });
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error("The weather service returned an error.");
+    }
+
+    const data = await response.json();
+
+    if (!data.daily || !data.daily.time) {
+        throw new Error("Forecast data was not available.");
+    }
+
+    return data.daily;
+}
+
+function weatherGuidance(totalRain, maximumTemperature) {
+    const advice = [];
+
+    if (totalRain < 5) {
+        advice.push(
+            "Little rainfall is forecast over the next seven days. " +
+            "Check soil moisture and avoid relying on the forecast alone " +
+            "when deciding whether to plant rain-fed crops."
+        );
+    } else if (totalRain >= 30) {
+        advice.push(
+            "Substantial rainfall is forecast. Check drainage, protect soil " +
+            "from erosion and avoid working in saturated fields."
+        );
+    } else {
+        advice.push(
+            "Some rainfall is forecast. Compare it with actual soil moisture " +
+            "and your crop's water needs."
+        );
+    }
+
+    if (maximumTemperature >= 35) {
+        advice.push(
+            "High temperatures are forecast. Monitor young crops for wilting " +
+            "and assess available soil moisture."
+        );
+    }
+
+    return advice;
+}
+
+async function loadWeatherFor(city, targetPrefix) {
+    const status = document.getElementById("weatherStatus");
+
+    if (targetPrefix === "weather") {
+        status.textContent = "Loading forecast for " + city + "...";
+    }
+
+    try {
+        const daily = await fetchWeather(city);
+        const rainValues = daily.precipitation_sum.map(value => value || 0);
+        const totalRain = rainValues.reduce((sum, value) => sum + value, 0);
+        const highest = Math.max(...daily.temperature_2m_max);
+        const lowest = Math.min(...daily.temperature_2m_min);
+
+        if (targetPrefix === "weather") {
+            lastWeather = { city, daily, totalRain, highest, lowest };
+            status.textContent = "Forecast loaded for " + city + ".";
+
+            showResult("weatherSummary", `
+                <div class="card">
+                    <h3>Seven-day rainfall</h3>
+                    <div class="stat">${totalRain.toFixed(1)} mm</div>
+                </div>
+                <div class="card">
+                    <h3>Highest temperature</h3>
+                    <div class="stat">${highest.toFixed(1)} °C</div>
+                </div>
+                <div class="card">
+                    <h3>Lowest temperature</h3>
+                    <div class="stat">${lowest.toFixed(1)} °C</div>
+                </div>
+            `);
+
+            document.getElementById("weatherResults").innerHTML =
+                daily.time.map((day, index) => `
+                    <div class="weather-day">
+                        <strong>${formatDate(day, {
+                            weekday: "short", day: "numeric", month: "short"
+                        })}</strong>
+                        <p>🌡️ High: ${daily.temperature_2m_max[index]} °C</p>
+                        <p>🌙 Low: ${daily.temperature_2m_min[index]} °C</p>
+                        <p>🌧️ Rain: ${daily.precipitation_sum[index]} mm</p>
+                        <p>☔ Rain chance: ${
+                            daily.precipitation_probability_max?.[index] ?? "N/A"
+                        }%</p>
+                    </div>
+                `).join("");
+
+            document.getElementById("weatherAdvice").innerHTML =
+                weatherGuidance(totalRain, highest).map(item =>
+                    `<div class="success">${escapeHTML(item)}</div>`
+                ).join("");
+
+            document.getElementById("weatherActions").style.display = "block";
+        }
+
+        return { daily, totalRain, highest, lowest };
+    } catch (error) {
+        if (targetPrefix === "weather") {
+            status.textContent =
+                "Could not load the forecast. Check your internet connection and try again.";
+            document.getElementById("weatherResults").innerHTML = "";
+            document.getElementById("weatherSummary").innerHTML = "";
+            document.getElementById("weatherActions").style.display = "none";
+        }
+        throw error;
+    }
+}
+
+document.getElementById("loadWeather").addEventListener("click", async () => {
+    const city = document.getElementById("weatherLocation").value;
+    try {
+        await loadWeatherFor(city, "weather");
+    } catch (_) {
+        // A clear error message is shown in the weather section.
+    }
+});
+
+// --------------------------------------------------
+// MAIZE DETAILED ADVISORY
+// General Zambia-focused guidance. Verify local rates and dates
+// with an agricultural extension officer and the selected seed variety.
+// --------------------------------------------------
+function maizeDetailedGuide(city, soil, water, goal) {
+    const soilMessage = {
+        sandy: "Sandy soil may drain quickly and hold less water and nutrients. Maize may still grow, but moisture conservation and soil fertility management are especially important.",
+        sandyloam: "Sandy loam is often suitable when it is fertile and well drained. Add organic matter where available and monitor moisture during dry spells.",
+        loam: "Well-drained loam is generally favourable for maize when fertility and soil acidity are suitable.",
+        clay: "Clay soil can support maize if drainage is good, but avoid planting into saturated soil or working it when it is too wet.",
+        waterlogged: "CAUTION: heavy or waterlogged ground is a significant risk for maize because roots need oxygen. Improve drainage or compare another field before planting.",
+        unknown: "Soil type has not been confirmed. If possible, obtain a soil test for pH and nutrients and ask an extension officer to assess drainage before buying inputs."
+    }[soil] || "Assess soil texture, fertility, acidity and drainage before planting.";
+
+    const waterMessage = {
+        rain: "For rain-fed maize, wait for effective rains and adequate moisture in the planting zone. One shower may not mean the season is established. Recheck the forecast and field moisture.",
+        reliable: "Reliable rainfall can support maize, but dry spells can still occur. Moisture is especially important around flowering/silking and grain filling.",
+        irrigation: "Irrigation can reduce rainfall risk if the water supply is dependable. Plan water use and cost, and avoid waterlogging.",
+        limited: "Limited rainfall raises the risk of crop failure, particularly during flowering and grain filling. Consider an early-maturing or drought-tolerant maize variety, conserve soil moisture, and compare sorghum, millet or cassava where locally suitable."
+    }[water] || "Match variety duration and planting date to reliable water availability.";
+
+    const goalMessage = {
+        food: "For household food, consider the household's food needs, seed and input budget, storage capacity and whether a smaller, diversified planting is less risky.",
+        commercial: "For commercial production, estimate seed, fertiliser, labour, transport, drying and storage costs. Check buyer requirements and expected local prices before investing.",
+        drought: "For drought resilience, compare early-maturing or drought-tolerant maize varieties and diversify with locally suitable drought-resilient crops rather than relying on maize alone.",
+        fertility: "Maize uses substantial nutrients. Rotate with legumes such as soybeans or groundnuts, retain suitable crop residues, and use soil-test or extension-based fertility advice. A legume rotation can help but does not remove all fertiliser needs."
+    }[goal] || "Match the production plan to household needs, risk tolerance and available resources.";
+
+    return `
+      <div class="panel">
+        <h2>🌽 Detailed Maize Advisory for ${escapeHTML(city)}</h2>
+        <p class="intro">Maize (chimanga) is an important staple crop in Zambia. This guide adds practical detail to the preliminary suitability ranking. It is general guidance, not a farm-specific guarantee.</p>
+        <div class="cards">
+          <div class="card"><h3>🌱 Soil and drainage</h3><p>${escapeHTML(soilMessage)}</p><p><strong>General preference:</strong> fertile, well-drained sandy loam, loam or clay loam. A soil test helps check pH and nutrient status.</p></div>
+          <div class="card"><h3>🌧️ Rainfall and water</h3><p>${escapeHTML(waterMessage)}</p><p>Protect soil moisture and avoid planting into dry soil or saturated ground.</p></div>
+          <div class="card"><h3>🌡️ Climate and season</h3><p>Maize grows best in warm conditions. In Zambia, rain-fed planting commonly occurs around the start of the rainy season, often October–December, but the best date varies by district, season, variety and the onset of effective rains.</p><p>Do not use the calendar alone: check current forecasts and actual field moisture.</p></div>
+        </div>
+
+        <h3>1. Planting guide</h3>
+        <div class="table-wrap"><table><thead><tr><th>Item</th><th>General starting guidance</th><th>Important note</th></tr></thead><tbody>
+          <tr><td>Seed/variety</td><td>Use certified seed suited to the local agro-ecological region, rainfall pattern and intended harvest period.</td><td>Ask an extension officer or reputable seed supplier about locally released varieties and maturity duration.</td></tr>
+          <tr><td>Planting time</td><td>Plant after effective rains have started and there is adequate moisture in the seed zone.</td><td>Seasonal timing differs across Zambia; do not treat November–December as a guaranteed date for every field.</td></tr>
+          <tr><td>Row spacing</td><td>A common guide is about 75 cm between rows.</td><td>Follow the variety, production system and local extension recommendation.</td></tr>
+          <tr><td>Plant spacing</td><td>About 25 cm between plants is a common example when targeting roughly 53,000 plants/ha.</td><td>Target population can change with rainfall, soil fertility, variety and management; do not force this spacing on every field.</td></tr>
+          <tr><td>Planting depth</td><td>Around 5 cm is a common guide in suitable soil moisture conditions.</td><td>Adjust for soil type and moisture; follow the seed supplier's instructions.</td></tr>
+          <tr><td>Seed quantity</td><td>Calculate from the target plant population, seed size, germination and spacing.</td><td>Check the seed bag and local guidance instead of relying on one universal kg/ha figure.</td></tr>
+        </tbody></table></div>
+
+        <h3>2. Land preparation and crop care</h3>
+        <div class="cards">
+          <div class="card"><h3>Before planting</h3><ul><li>Check field drainage and previous crop history.</li><li>Prepare a suitable seedbed without unnecessary soil disturbance.</li><li>Arrange seed and inputs before the rains where possible.</li><li>Test soil if possible, especially where yields have been poor.</li></ul></div>
+          <div class="card"><h3>Fertiliser and soil health</h3><ul><li>Use basal and top-dressing fertilisers according to soil test, product label and local extension advice.</li><li>Place fertiliser safely away from direct seed contact, following product guidance.</li><li>Avoid guessing a fertiliser rate: products and soil needs differ.</li><li>Consider crop rotation, legumes and suitable organic matter management.</li></ul></div>
+          <div class="card"><h3>Weed control</h3><ul><li>Control weeds early so they do not compete for light, water and nutrients.</li><li>Inspect the field regularly after emergence.</li><li>Use only herbicides registered for the crop and follow label directions and protective measures.</li></ul></div>
+          <div class="card"><h3>Water management</h3><ul><li>Check soil moisture during dry spells.</li><li>Flowering/silking and grain filling are important moisture-sensitive stages.</li><li>Prevent waterlogging and erosion after heavy rain.</li><li>Where practical, use soil-moisture conservation methods suitable for the farm.</li></ul></div>
+        </div>
+
+        <h3>3. Growth stages and what to do</h3>
+        <div class="table-wrap"><table><thead><tr><th>Stage</th><th>What the farmer should check</th></tr></thead><tbody>
+          <tr><td>Germination and emergence</td><td>Check whether plants emerge evenly; investigate gaps, crusting, pests or dry seedbeds.</td></tr>
+          <tr><td>Early vegetative growth</td><td>Control weeds early, check plant population and look for nutrient deficiency or insect damage.</td></tr>
+          <tr><td>Rapid growth / before flowering</td><td>Monitor crop nutrition, weeds, water stress and fall armyworm or other caterpillar damage.</td></tr>
+          <tr><td>Flowering and silking</td><td>Protect the crop from moisture stress where possible and inspect for pests; this stage strongly affects grain set.</td></tr>
+          <tr><td>Grain filling and maturity</td><td>Continue field inspections, assess pest damage and prepare drying and storage arrangements.</td></tr>
+          <tr><td>Harvest and storage</td><td>Harvest when mature, dry grain properly, and store it in a clean, dry, pest-managed place.</td></tr>
+        </tbody></table></div>
+
+        <h3>4. Pests and diseases to watch for</h3>
+        <ul>
+          <li><strong>Fall armyworm:</strong> inspect the whorl and leaves for ragged holes, windowing and caterpillars. Seek locally approved control advice early.</li>
+          <li><strong>Stalk borers and other caterpillars:</strong> look for damaged stems, dead-heart symptoms or feeding signs.</li>
+          <li><strong>Maize streak virus:</strong> watch for pale streaks on leaves and stunted plants.</li>
+          <li><strong>Leaf diseases such as rust and grey leaf spot:</strong> inspect leaves regularly and ask for help identifying symptoms before treatment.</li>
+        </ul>
+        <p>Use integrated pest management, confirm the pest or disease before treatment, and follow registered pesticide labels and safety instructions. Do not apply a chemical solely from a website description.</p>
+
+        <h3>5. Harvest, yield and profitability</h3>
+        <ul>
+          <li><strong>Growing period:</strong> many maize varieties take roughly 120–140 days, but maturity depends on variety, planting date and weather. The current calendar's 140-day estimate is only a planning aid.</li>
+          <li><strong>Yield:</strong> actual yield varies greatly with rainfall, variety, soil fertility, plant population and management. This prototype does not yet predict yield for an individual farm.</li>
+          <li><strong>Profit:</strong> compare expected sales with seed, fertiliser, chemicals, labour, transport, drying and storage costs before choosing commercial production.</li>
+        </ul>
+
+        <h3>6. Field-specific assessment</h3>
+        <div class="success"><strong>Your selected inputs:</strong> Soil: ${escapeHTML(soil)} · Water: ${escapeHTML(water)} · Main goal: ${escapeHTML(goal)}.</div>
+        ${soil === "waterlogged" ? '<div class="notice"><strong>Suitability warning:</strong> Address drainage or consider another field before planting maize.</div>' : ''}
+        ${water === "limited" ? '<div class="notice"><strong>Water-risk warning:</strong> Maize may be risky with limited rainfall. Compare early-maturing maize and drought-resilient alternatives using local advice.</div>' : ''}
+        <p><strong>Recommended next step:</strong> confirm soil condition, check the local seasonal forecast and effective rainfall, choose a locally suitable variety, and ask an agricultural extension officer to confirm fertiliser and pest-management recommendations.</p>
+        <p class="small">Sources for general guidance: Zambia Institute for Food and Livelihoods / CFU-derived production guide; Zambia Agriculture Research Institute (ZARI) crop improvement and agronomy guidance; FAO country context. This page does not replace district-specific extension advice.</p>
+      </div>`;
+}
+
+// --------------------------------------------------
+// DETAILED CROP GUIDES FOR ALL CROPS IN THE SYSTEM
+// Broad starting guidance only; confirm local practices with ZARI/extension staff.
+// --------------------------------------------------
+function detailedCropGuide(cropName, city, soil, water, goal) {
+    if (cropName === "Maize") return maizeDetailedGuide(city, soil, water, goal);
+
+    const guides = {
+        "Groundnuts": {
+            emoji: "🥜", local: "Groundnuts", duration: "Often about 90–140 days, depending on variety",
+            soil: "Loose, friable, well-drained sandy loam is commonly preferred. Heavy, compacted or waterlogged soil can make pod development and harvesting difficult.",
+            planting: "Sow after effective rains begin and soil moisture is adequate. Use healthy, locally recommended seed and follow local spacing and seed-rate advice.",
+            care: ["Prepare a loose seedbed so pegs can enter the soil and pods can develop.", "Control weeds early, especially before the crop canopy closes.", "Avoid disturbing plants and developing pods during weeding.", "Do not apply lime, gypsum or fertiliser without checking local soil and crop recommendations."],
+            risks: ["Leaf-spot diseases and rosette disease: inspect plants regularly and seek local diagnosis.", "Aphids and other insects: monitor early and use locally approved integrated pest management.", "Aflatoxin risk: avoid drought stress where possible, harvest promptly at maturity, dry carefully and store dry pods in clean conditions."],
+            harvest: "Dig when the crop is mature and pods are sufficiently developed; maturity varies by variety. Dry pods promptly and thoroughly without contaminating them with soil or rain.",
+            extra: "Groundnuts can fit into rotations with cereals, but they do not eliminate the need to manage soil fertility. Commercial growers should check seed quality, shelling/drying costs, buyer quality requirements and aflatoxin prevention."
+        },
+        "Soybeans": {
+            emoji: "🫘", local: "Soybeans", duration: "Often about 100–140 days, depending on variety",
+            soil: "Fertile, well-drained loam or sandy loam is often suitable. Soil acidity, poor drainage and nutrient deficiencies can reduce nodulation and yield.",
+            planting: "Plant at the locally recommended time after effective rains start. Choose a variety suited to the district and market, and use good-quality seed.",
+            care: ["Control weeds early because young soybean plants compete poorly with weeds.", "Ask an extension officer or seed supplier whether a suitable soybean inoculant is recommended and how to store and apply it.", "Avoid waterlogging and check moisture around flowering and pod filling.", "Use soil-test and local recommendations for phosphorus, potassium, lime and other inputs; do not guess rates."],
+            risks: ["Inspect for insect pests and leaf diseases throughout the season.", "Check for poor nodulation or yellowing, but confirm the cause before adding inputs.", "Rotate crops and use locally recommended varieties and disease-management practices."],
+            harvest: "Harvest when most pods are mature and plants have reached the appropriate stage for the variety. Avoid delays that increase shattering or weather damage; dry and store grain safely.",
+            extra: "Soybeans can contribute to a cereal rotation and may fix nitrogen when nodulation is effective, but this depends on inoculation, soil and crop conditions. Before commercial planting, confirm buyers, quality standards, transport and input costs."
+        },
+        "Sorghum": {
+            emoji: "🌾", local: "Sorghum", duration: "Often about 90–130 days, depending on variety",
+            soil: "Can grow across a range of soils, provided drainage and fertility are adequate. Select a locally adapted variety for the soil and rainfall pattern.",
+            planting: "Sow after effective rainfall establishes adequate seedbed moisture. Planting date and maturity group should match local rainfall duration.",
+            care: ["Establish a uniform stand using clean seed and locally recommended spacing.", "Control weeds during early growth.", "Conserve moisture and monitor crop stress during long dry spells.", "Use locally advised fertility management; drought tolerance does not mean the crop needs no nutrients."],
+            risks: ["Monitor for shoot fly, stem borers, birds and grain mould where locally prevalent.", "Check for Striga or other serious field problems and seek local advice.", "Use integrated pest management and only locally registered crop-protection products."],
+            harvest: "Harvest when grain reaches maturity and is sufficiently dry for safe handling. Dry grain properly and protect it from birds, insects and moisture in storage.",
+            extra: "Sorghum is often worth considering where rainfall is less reliable than maize, but performance depends on variety, planting date, soil and management. Confirm local food, feed or brewing markets before commercial production."
+        },
+        "Millet": {
+            emoji: "🌾", local: "Millet", duration: "Often about 80–110 days, depending on species and variety",
+            soil: "Many millet types tolerate relatively poor or sandy soils better than some cereals, but establishment still requires a suitable seedbed, drainage and enough moisture.",
+            planting: "Use a locally recommended millet species and variety. Sow after effective rains begin and follow local advice on row spacing, seed rate and planting depth.",
+            care: ["Prepare a fine, firm seedbed because millet seed is small.", "Avoid sowing too deep; use the variety or extension guide for depth and spacing.", "Control weeds early while seedlings are small.", "Check crop moisture and soil fertility rather than assuming a drought-tolerant crop needs no care."],
+            risks: ["Monitor for birds, insect pests, smuts and other locally occurring diseases.", "Use clean seed and seek help identifying disease symptoms.", "Follow local integrated pest-management recommendations."],
+            harvest: "Harvest when heads/grain mature, using the method suitable for the millet type. Dry grain well before storage and protect it from birds, insects and dampness.",
+            extra: "Millet can be a useful option for drier areas, but species, market demand and local adaptation matter. Check availability of seed, labour requirements and buyers before scaling up."
+        },
+        "Common Beans": {
+            emoji: "🫘", local: "Common beans", duration: "Often about 75–110 days, depending on variety",
+            soil: "Fertile, well-drained soil is preferred. Beans are sensitive to waterlogging and may perform poorly in very acidic or nutrient-deficient soils.",
+            planting: "Plant at the locally recommended time when soil moisture is adequate. Choose varieties suited to local disease pressure, rainfall and whether the market wants bush or climbing beans.",
+            care: ["Use clean seed and recommended spacing.", "Control weeds early, but avoid damaging shallow roots.", "Maintain moisture during flowering and pod filling while preventing waterlogging.", "Use soil-test or extension guidance for fertiliser and soil acidity management."],
+            risks: ["Watch for bean fly, aphids, pod borers and leaf diseases where present.", "Avoid working among wet plants where it can spread disease.", "Rotate with non-legume crops and use locally recommended disease-resistant varieties when available."],
+            harvest: "Harvest at the correct maturity for fresh or dry beans. For dry grain, dry pods/grain adequately and store in clean, dry, pest-protected containers.",
+            extra: "Beans can contribute protein for household diets and can fit into rotations. For commercial production, confirm seed quality, disease risks, labour, storage and buyer preferences."
+        },
+        "Sweet Potatoes": {
+            emoji: "🍠", local: "Sweet potatoes", duration: "Often about 90–150 days, depending on variety and intended harvest",
+            soil: "Loose, well-drained sandy loam or loam helps root development and harvesting. Compacted or waterlogged soils can cause poor root shape and rotting.",
+            planting: "Use healthy, vigorous vines from a reliable source. Plant when soil moisture is sufficient for establishment; timing can vary with rainfall, irrigation and local variety.",
+            care: ["Prepare ridges or mounds where locally recommended and suitable for the field.", "Keep young plants weed-free until they establish.", "Maintain moisture during establishment and tuber development; avoid waterlogging.", "Use balanced, locally recommended fertility management; excessive nitrogen can favour vine growth over storage-root development."],
+            risks: ["Inspect for sweet potato weevils, virus symptoms and root rots.", "Use healthy planting material and remove severely affected plants as advised locally.", "Avoid repeated planting in the same field without rotation and field-health checks."],
+            harvest: "Harvest according to the variety and intended market size. Handle roots gently to reduce bruising, cure/store only using locally appropriate practices and protect from pests and excess moisture.",
+            extra: "Check demand for fresh roots, processing, transport and storage losses before commercial planting. Planting material quality is especially important for a healthy crop."
+        },
+        "Cassava": {
+            emoji: "🌿", local: "Cassava", duration: "Often about 9–18 months, depending on variety and intended use",
+            soil: "Well-drained soil is important. Cassava can tolerate some lower-fertility conditions but performs better when soil, variety and management are appropriate; avoid persistent waterlogging.",
+            planting: "Use healthy, mature stem cuttings from disease-free plants and a locally recommended variety. Plant when soil moisture supports establishment; planting windows vary by location and water availability.",
+            care: ["Select healthy cuttings with suitable nodes and handle planting material carefully.", "Control weeds early while the crop establishes.", "Check plant stands and replace failed cuttings early if conditions allow.", "Use soil conservation and locally advised fertility management, especially for repeated production."],
+            risks: ["Monitor for cassava mosaic disease, brown streak where present, mealybugs and other local pests.", "Use clean planting material and varieties recommended for the region.", "Do not transport suspect planting material between fields; seek extension advice if disease is suspected."],
+            harvest: "Harvest when roots reach the intended size and market quality. Harvest timing varies by variety and use. Handle roots promptly because quality can deteriorate after harvest; follow local safe processing practices.",
+            extra: "Cassava can provide a longer-term food reserve and may tolerate dry periods after establishment, but it is not risk-free. Confirm processing/market access, variety, planting-material supply and harvest labour before commercial production."
+        }
+    };
+    const g = guides[cropName];
+    if (!g) return "";
+    const soilWarning = soil === "waterlogged"
+        ? `<div class="notice"><strong>Drainage warning:</strong> your selected soil is waterlogged. These crops generally need a field with suitable drainage; assess another field or seek local advice before planting.</div>` : "";
+    const waterWarning = water === "limited"
+        ? `<div class="notice"><strong>Water-risk note:</strong> you selected limited water. Match variety duration to expected rainfall, conserve soil moisture and consider diversifying; no crop is guaranteed to succeed in drought.</div>` : "";
+    return `
+      <div class="panel crop-guide">
+        <h2>${g.emoji} Detailed ${escapeHTML(cropName)} Advisory for ${escapeHTML(city)}</h2>
+        <p class="intro">Practical, general Zambia-focused guidance for your selected crop. Local planting dates, seed rates, spacing, fertiliser and crop-protection recommendations vary by district and variety.</p>
+        <div class="cards">
+          <div class="card"><h3>🌱 Soil and field choice</h3><p>${escapeHTML(g.soil)}</p><p><strong>Your selection:</strong> ${escapeHTML(soil)}.</p></div>
+          <div class="card"><h3>🌧️ Water and planting time</h3><p>${escapeHTML(g.planting)}</p><p><strong>Your water option:</strong> ${escapeHTML(water)}. Check actual field moisture as well as the forecast.</p></div>
+          <div class="card"><h3>🗓️ Growing period</h3><p>${escapeHTML(g.duration)}.</p><p>Use this only for planning; variety and local conditions can change maturity.</p></div>
+        </div>
+        ${soilWarning}${waterWarning}
+        <h3>1. Field preparation and crop care</h3><ul>${g.care.map(x=>`<li>${escapeHTML(x)}</li>`).join("")}</ul>
+        <h3>2. Pests and diseases to monitor</h3><ul>${g.risks.map(x=>`<li>${escapeHTML(x)}</li>`).join("")}</ul>
+        <p>Confirm symptoms before treating a crop. Use integrated pest management, locally registered products only, label instructions and appropriate protective equipment.</p>
+        <h3>3. Harvest and post-harvest</h3><p>${escapeHTML(g.harvest)}</p>
+        <h3>4. Household or commercial planning</h3><p>${escapeHTML(g.extra)}</p>
+        <div class="success"><strong>Your selected goal:</strong> ${escapeHTML(goal)}. Consider household needs, water risk, seed/input budget, labour, storage and reliable market access before deciding how much to plant.</div>
+        <p><strong>Recommended next step:</strong> confirm the variety and planting window with your local agricultural extension officer or Zambia Agriculture Research Institute (ZARI) guidance. Ask for district-specific seed rate, spacing, fertility and pest-management recommendations before buying inputs.</p>
+        <p class="small">This is an advisory prototype, not a soil test, disease diagnosis, guaranteed yield estimate or substitute for local extension support.</p>
+      </div>`;
+}
+
+// --------------------------------------------------
+// SMART CROP RECOMMENDATIONS
+// Transparent rule-based guidance, not machine learning.
+// --------------------------------------------------
+document.getElementById("getRecommendations").addEventListener("click", async () => {
+    const city = document.getElementById("recLocation").value;
+    const soil = document.getElementById("soil").value;
+    const water = document.getElementById("water").value;
+    const goal = document.getElementById("goal").value;
+    const chosen = document.getElementById("experienceCrop").value;
+    const output = document.getElementById("recommendationResults");
+
+    output.innerHTML = `<div class="panel"><p>Assessing your selected field conditions${"..."}</p></div>`;
+
+    // These transparent rules are a first-pass screening tool, not a validated
+    // agronomic model. The selected town is used to retrieve weather context,
+    // not to assume that every farm near that town has the same conditions.
+    const profiles = {
+        "Maize": {soil: ["sandyloam", "loam", "clay"], dry: -1, reliable: 2, fertility: 0, food: 2, shortSeason: -1},
+        "Groundnuts": {soil: ["sandy", "sandyloam", "loam"], dry: 1, reliable: 1, fertility: 3, food: 1, shortSeason: 0},
+        "Soybeans": {soil: ["sandyloam", "loam"], dry: -1, reliable: 2, fertility: 3, food: 1, shortSeason: -1},
+        "Sorghum": {soil: ["sandy", "sandyloam", "loam", "clay"], dry: 3, reliable: 1, fertility: 0, food: 1, shortSeason: 1},
+        "Millet": {soil: ["sandy", "sandyloam", "loam"], dry: 3, reliable: 1, fertility: 0, food: 1, shortSeason: 2},
+        "Common Beans": {soil: ["sandyloam", "loam"], dry: -2, reliable: 2, fertility: 3, food: 2, shortSeason: 2},
+        "Sweet Potatoes": {soil: ["sandy", "sandyloam", "loam"], dry: 1, reliable: 1, fertility: 0, food: 2, shortSeason: 0},
+        "Cassava": {soil: ["sandy", "sandyloam", "loam"], dry: 3, reliable: 1, fertility: 0, food: 2, shortSeason: -2}
+    };
+
+    const ranked = Object.entries(crops).map(([name, info]) => {
+        const profile = profiles[name];
+        let score = 0;
+        const reasons = [];
+
+        if (soil === "unknown") {
+            reasons.push("soil type is unknown, so suitability needs field assessment");
+        } else if (soil === "waterlogged") {
+            score -= 4;
+            reasons.push("waterlogging is a major concern; improve drainage and seek local advice before planting");
+        } else if (profile.soil.includes(soil)) {
+            score += 3;
+            reasons.push("your selected soil category is broadly compatible with this crop when drainage and fertility are suitable");
+        } else {
+            score -= 1;
+            reasons.push("your selected soil category is not the strongest general match; check drainage and soil condition");
+        }
+
+        if (water === "limited") {
+            score += profile.dry;
+            reasons.push(profile.dry >= 2
+                ? "this crop is worth considering where rainfall is less reliable, though establishment moisture is still important"
+                : "limited rainfall may increase risk for this crop, especially at sensitive growth stages");
+        } else if (water === "reliable") {
+            score += profile.reliable;
+            reasons.push("the selected reliable-rainfall condition may support crops that need steadier moisture");
+        } else if (water === "irrigation") {
+            score += ["Maize", "Soybeans", "Common Beans", "Sweet Potatoes"].includes(name) ? 2 : 1;
+            reasons.push("irrigation can help manage water only if supply, timing and cost are dependable");
+        } else {
+            reasons.push("with rainfall-only farming, plant after effective rains begin and soil moisture is adequate");
+        }
+
+        if (goal === "fertility") {
+            score += profile.fertility;
+            reasons.push(profile.fertility >= 3
+                ? "as a legume, it may contribute to a suitable rotation; benefits depend on nodulation, residue management and the next crop"
+                : "for soil improvement, consider rotation with legumes and maintain crop residues where practical");
+        } else if (goal === "drought") {
+            score += ["Sorghum", "Millet", "Cassava"].includes(name) ? 3 : (name === "Groundnuts" || name === "Sweet Potatoes" ? 1 : -1);
+            reasons.push("drought resilience is a priority, but no crop is drought-proof and establishment still needs moisture");
+        } else if (goal === "food") {
+            score += profile.food;
+            reasons.push("this crop may contribute to household food needs; consider dietary needs and storage as well");
+        } else if (goal === "commercial") {
+            reasons.push("commercial suitability cannot be ranked reliably without local buyer demand, farm-gate prices, input costs, labour and transport costs");
+        }
+
+        if (name === chosen) {
+            score += 1;
+            reasons.push("included because it is the crop you are currently considering; compare it with the other options too");
+        }
+
+        return { name, info, score, reasons };
+    }).sort((a, b) => b.score - a.score);
+
+    let weatherPanel = `<div class="notice"><strong>Weather context:</strong> a live seven-day forecast was not available. Check the Weather Forecast section and local field conditions before planting.</div>`;
+    try {
+        const data = await fetchWeather(city);
+        const rain = (data.precipitation_sum || []).reduce((sum, value) => sum + (value || 0), 0);
+        const maxTemp = Math.max(...(data.temperature_2m_max || [0]));
+        const rainProb = Math.max(...(data.precipitation_probability_max || [0]));
+        weatherPanel = `
+            <div class="cards">
+                <div class="card"><h3>Next 7 days' forecast rainfall</h3><div class="stat">${rain.toFixed(1)} mm</div><p>Forecast total for ${escapeHTML(city)}</p></div>
+                <div class="card"><h3>Highest forecast temperature</h3><div class="stat">${maxTemp.toFixed(1)} °C</div><p>Across the next seven days</p></div>
+                <div class="card"><h3>Peak daily rain probability</h3><div class="stat">${rainProb}%</div><p>Probability, not a guarantee of rainfall</p></div>
+            </div>
+            <div class="notice"><strong>How to use this:</strong> the seven-day forecast is short-term context only. It does not show the full season's rainfall and has not been used to claim that a crop is suitable for the whole season. Recheck it before planting.</div>`;
+    } catch (_) {
+        // Keep recommendations usable when offline or when the forecast service fails.
+    }
+
+    const top = ranked.slice(0, 4);
+    const matchLabel = score => score >= 6 ? "Stronger preliminary match" : score >= 3 ? "Possible match — check locally" : "More checks needed";
+
+    output.innerHTML = `
+        <div class="panel">
+            <h2>Preliminary crop assessment for ${escapeHTML(city)}</h2>
+            <p class="intro">Ranking is based on the soil category, water option and farming goal you selected. It is a transparent rule-based screening tool, not machine learning, a soil test or a yield prediction.</p>
+            ${weatherPanel}
+            <h3>Top options to investigate</h3>
+            ${top.map((item, index) => `
+                <div class="card" style="margin-bottom:12px">
+                    <h3>${index + 1}. ${escapeHTML(item.name)}</h3>
+                    <p><strong>Assessment:</strong> ${escapeHTML(matchLabel(item.score))}</p>
+                    <p><strong>Typical soil preference:</strong> ${escapeHTML(item.info.soil)}</p>
+                    <p><strong>Water needs:</strong> ${escapeHTML(item.info.water)}</p>
+                    <p>${escapeHTML(item.info.advice)}</p>
+                    <p><strong>Reasons and checks:</strong></p>
+                    <ul>${item.reasons.slice(0, 4).map(reason => `<li>${escapeHTML(reason)}</li>`).join("")}</ul>
+                    <button class="secondary" onclick="useCropInCalendar('${escapeHTML(item.name)}')">Plan this crop</button>
+                </div>
+            `).join("")}
+            ${detailedCropGuide(chosen, city, soil, water, goal)}
+            <div class="notice"><strong>Before deciding:</strong> compare seed availability and variety, field drainage, soil fertility/pH, seasonal rainfall outlook, labour, input costs, storage and local market demand. Confirm district-specific planting dates and input rates with an agricultural extension officer or ZARI guidance.</div>
+        </div>`;
+});
+
+function useCropInCalendar(cropName) {
+    document.getElementById("calCrop").value = cropName;
+    document.getElementById("calLocation").value =
+        document.getElementById("recLocation").value;
+    showPage("calendar");
+}
+
+// --------------------------------------------------
+// PLANTING CALENDAR
+// --------------------------------------------------
+function createTask(activity, taskDate, description, id) {
+    return `
+        <div class="task">
+            <input type="checkbox" id="${id}">
+            <label for="${id}">
+                <strong>${escapeHTML(activity)} — ${formatDate(taskDate)}</strong><br>
+                ${escapeHTML(description)}
+            </label>
+        </div>
+    `;
+}
+
+document.getElementById("createCalendar").addEventListener("click", () => {
+    const city = document.getElementById("calLocation").value;
+    const cropName = document.getElementById("calCrop").value;
+    const plantDate = document.getElementById("plantDate").value;
+    const method = document.getElementById("farmingMethod").value;
+    const farmSize = document.getElementById("farmSize").value;
+    const crop = crops[cropName];
+
+    if (!plantDate) {
+        document.getElementById("calendarResults").innerHTML =
+            `<div class="notice">Please select your intended planting date.</div>`;
+        return;
+    }
+
+    if (farmSize !== "" && Number(farmSize) < 0) {
+        document.getElementById("calendarResults").innerHTML =
+            `<div class="notice">Field size cannot be negative.</div>`;
+        return;
+    }
+
+    const dateObject = new Date(plantDate + "T12:00:00");
+    const harvestDate = addDays(plantDate, crop.days);
+    const month = dateObject.getMonth() + 1;
+    const inWindow = crop.months.includes(month);
+
+    const activities = [
+        ["Field preparation", addDays(plantDate, -14),
+         "Prepare the field and arrange seed and inputs."],
+        ["Planting", plantDate,
+         "Follow locally recommended planting depth and spacing."],
+        ["Early crop inspection", addDays(plantDate, 14),
+         "Check germination, missing plants and early weeds."],
+        ["Weed and crop management", addDays(plantDate, 30),
+         "Inspect weeds, crop nutrition and moisture."],
+        ["Mid-season inspection", addDays(plantDate, 60),
+         "Monitor crop growth, pests, diseases and moisture stress."],
+        ["Maturity assessment", addDays(harvestDate, -14),
+         "Check maturity and prepare drying and storage arrangements."],
+        ["Estimated harvest", harvestDate,
+         "Harvest according to actual maturity, not the calendar alone."]
+    ];
+
+    const monthList = crop.months.map(monthName).join(", ");
+
+    document.getElementById("calendarResults").innerHTML = `
+        <div class="panel">
+            <h2>Your ${escapeHTML(cropName)} farming plan</h2>
+            <p><strong>Location:</strong> ${escapeHTML(city)}</p>
+            <p><strong>Method:</strong> ${escapeHTML(method)}</p>
+            ${farmSize !== "" && Number(farmSize) > 0
+                ? `<p><strong>Field size:</strong> ${Number(farmSize).toFixed(1)} hectares</p>`
+                : ""}
+            <div class="cards">
+                <div class="card">
+                    <h3>Planting date</h3>
+                    <div class="stat">${formatDate(plantDate)}</div>
+                </div>
+                <div class="card">
+                    <h3>Estimated harvest</h3>
+                    <div class="stat">${formatDate(harvestDate)}</div>
+                </div>
+                <div class="card">
+                    <h3>Growing period</h3>
+                    <div class="stat">${crop.days} days</div>
+                </div>
+            </div>
+            <div class="${inWindow ? "success" : "notice"}">
+                ${inWindow
+                    ? "The selected month is within this prototype's general planting window. Confirm that actual rainfall and soil moisture are suitable."
+                    : "The selected month is outside this prototype's general planting window (" +
+                      escapeHTML(monthList) +
+                      "). Check local guidance and water availability before planting."}
+            </div>
+            <p><strong>Typical soil:</strong> ${escapeHTML(crop.soil)}</p>
+            <p><strong>Water needs:</strong> ${escapeHTML(crop.water)}</p>
+            ${method === "Rain-fed farming"
+                ? `<div class="notice">Rain-fed farming: the date is only a plan. Confirm effective rainfall and field moisture before planting.</div>`
+                : `<div class="success">Irrigated farming: check water supply, cost, drainage and crop water needs throughout the season.</div>`}
+            <h3>Farming activity checklist</h3>
+            <p class="small">Tick activities as you complete them. Keep this page open while working through your plan.</p>
+            ${activities.map((task, index) =>
+                createTask(task[0], task[1], task[2], "task_" + index)
+            ).join("")}
+            <button class="primary" onclick="window.print()">Print Calendar</button>
+        </div>
+    `;
+});
+
+// --------------------------------------------------
+// CROP-SPECIFIC WEATHER ADVICE
+// --------------------------------------------------
+document.getElementById("getCropAdvice").addEventListener("click", async () => {
+    const city = document.getElementById("adviceLocation").value;
+    const cropName = document.getElementById("adviceCrop").value;
+    const crop = crops[cropName];
+    const result = document.getElementById("cropAdviceResults");
+
+    result.innerHTML = `<div class="panel">Loading forecast and preparing advice...</div>`;
+
+    let weatherText = "";
+    let actionText = "";
+
+    try {
+        const data = await fetchWeather(city);
+        const rain = data.precipitation_sum.reduce(
+            (sum, value) => sum + (value || 0), 0
+        );
+        const maxTemp = Math.max(...data.temperature_2m_max);
+
+        weatherText = `
+            <div class="cards">
+                <div class="card"><h3>Seven-day rainfall</h3>
+                    <div class="stat">${rain.toFixed(1)} mm</div></div>
+                <div class="card"><h3>Highest temperature</h3>
+                    <div class="stat">${maxTemp.toFixed(1)} °C</div></div>
+            </div>`;
+
+        actionText = weatherGuidance(rain, maxTemp).map(item =>
+            `<div class="success">${escapeHTML(item)}</div>`
+        ).join("");
+    } catch (_) {
+        weatherText = `
+            <div class="notice">
+                The live forecast could not be loaded. Check your internet connection
+                or use the Weather Forecast section to try again. General crop guidance
+                is available below.
+            </div>`;
+    }
+
+    result.innerHTML = `
+        <div class="panel">
+            <h2>${escapeHTML(cropName)} advice for ${escapeHTML(city)}</h2>
+            ${weatherText}
+            <h3>Crop requirements</h3>
+            <p><strong>Typical soil:</strong> ${escapeHTML(crop.soil)}</p>
+            <p><strong>Water needs:</strong> ${escapeHTML(crop.water)}</p>
+            <p>${escapeHTML(crop.advice)}</p>
+            <h3>Weather-related farming actions</h3>
+            ${actionText}
+            <div class="notice">
+                A seven-day forecast does not predict the entire growing season.
+                Recheck the weather regularly and seek local agricultural advice.
+            </div>
+        </div>`;
+});
+
+
+// --------------------------------------------------
+// SOIL ASSESSMENT AND PRELIMINARY CROP MATCHING
+// Observations are not laboratory measurements. Nutrient values are collected
+// for the enquiry but are not interpreted because test methods/units vary.
+// --------------------------------------------------
+const soilCropProfiles = {
+    "Maize": { soils:["sandyloam","loam"], pH:[5.5,7.5], water:2, drought:0, fertility:1 },
+    "Groundnuts": { soils:["sandy","sandyloam","loam"], pH:[5.5,6.5], water:1, drought:2, fertility:2 },
+    "Soybeans": { soils:["sandyloam","loam"], pH:[6.0,7.0], water:2, drought:0, fertility:2 },
+    "Sorghum": { soils:["sandy","sandyloam","loam","clay"], pH:[5.5,8.0], water:1, drought:3, fertility:0 },
+    "Millet": { soils:["sandy","sandyloam","loam"], pH:[5.5,7.5], water:1, drought:3, fertility:0 },
+    "Common Beans": { soils:["sandyloam","loam"], pH:[5.5,7.0], water:2, drought:0, fertility:2 },
+    "Sweet Potatoes": { soils:["sandy","sandyloam","loam"], pH:[5.5,6.5], water:1, drought:1, fertility:0 },
+    "Cassava": { soils:["sandy","sandyloam","loam"], pH:[5.0,7.5], water:1, drought:3, fertility:0 }
+};
+
+function getSoilFormData() {
+    const ids = ["stName","stPhone","stLocation","stFieldSize","stTexture","stColour","stDrainage","stCompaction","stWater","stGoal","stPrevious","stIssues","stPH","stN","stP","stK","stUnits","stLab"];
+    return Object.fromEntries(ids.map(id => [id, document.getElementById(id).value.trim()]));
+}
+
+function createSoilAssessment(data) {
+    const pH = data.stPH === "" ? null : Number(data.stPH);
+    const scores = Object.entries(soilCropProfiles).map(([name, profile]) => {
+        let score = 0;
+        const reasons = [];
+        if (data.stTexture === "unknown") {
+            reasons.push("Soil texture has not been confirmed");
+        } else if (profile.soils.includes(data.stTexture)) {
+            score += 3; reasons.push("reported texture is broadly compatible");
+        } else {
+            score -= 2; reasons.push("reported texture may be less suitable; verify field drainage and structure");
+        }
+        if (data.stDrainage === "poor") {
+            if (["sandy","sandyloam"].includes(data.stTexture)) { score += 1; }
+            else { score -= 3; }
+            reasons.push("waterlogging risk should be addressed before planting");
+        } else if (data.stDrainage === "good") {
+            score += 1; reasons.push("reported drainage is favourable for many crops");
+        } else if (data.stDrainage === "fast") {
+            if (["Sorghum","Millet","Cassava","Groundnuts"].includes(name)) score += 1;
+            reasons.push("rapid drying means soil moisture will need attention");
+        }
+        if (pH !== null) {
+            if (pH >= profile.pH[0] && pH <= profile.pH[1]) {
+                score += 2; reasons.push("entered pH falls within a broad indicative range for this crop");
+            } else {
+                score -= 1; reasons.push("entered pH is outside the broad indicative range; seek advice before making amendments");
+            }
+        }
+        if (data.stWater === "limited" || data.stGoal === "drought") {
+            score += profile.drought;
+            if (profile.drought >= 2) reasons.push("often considered for relatively dry conditions, depending on variety and season");
+        } else if (data.stWater === "irrigation" || data.stWater === "reliable") {
+            score += profile.water;
+        } else {
+            score += profile.water === 1 ? 1 : 0;
+        }
+        if (data.stGoal === "fertility" && profile.fertility >= 2) {
+            score += 1; reasons.push("a legume option that may contribute to rotation benefits when well managed");
+        }
+        if (data.stGoal === "food" && ["Maize","Common Beans","Sweet Potatoes","Cassava","Groundnuts"].includes(name)) score += 1;
+        if (data.stGoal === "commercial" && ["Maize","Soybeans","Groundnuts"].includes(name)) score += 1;
+        if (data.stCompaction === "high") reasons.push("check hard layers and rooting conditions before planting");
+        return {name, score, reasons: [...new Set(reasons)]};
+    }).sort((a,b) => b.score-a.score);
+
+    const measured = pH !== null || data.stN !== "" || data.stP !== "" || data.stK !== "";
+    const phText = pH === null ? "Not supplied" : `User-entered pH: ${pH.toFixed(1)} (treated as a measured result supplied by the farmer; not verified by this website)`;
+    const nutrientText = [data.stN ? `N: ${escapeHTML(data.stN)}` : "", data.stP ? `P: ${escapeHTML(data.stP)}` : "", data.stK ? `K: ${escapeHTML(data.stK)}` : ""].filter(Boolean).join(" · ") || "No nutrient results supplied";
+    const cards = scores.slice(0,4).map((item,index) => `
+        <div class="card"><div class="emoji">${index===0?"🌱":"🌾"}</div><h3>${index+1}. ${escapeHTML(item.name)}</h3>
+        <p><strong>Relative screening score:</strong> ${item.score}</p>
+        <p>${item.reasons.map(escapeHTML).join("; ") || "Only limited field information was provided."}</p>
+        <p><strong>Before planting:</strong> confirm variety suitability, planting window, seed availability and local advice.</p></div>`).join("");
+    document.getElementById("soilAssessmentResults").innerHTML = `
+        <div class="panel"><h3>Preliminary soil and crop assessment</h3>
+        <p><strong>Farm:</strong> ${escapeHTML(data.stLocation)} · <strong>Soil texture:</strong> ${escapeHTML(data.stTexture)} · <strong>Drainage:</strong> ${escapeHTML(data.stDrainage)}</p>
+        <p><strong>pH status:</strong> ${escapeHTML(phText)}</p><p><strong>Entered nutrient results:</strong> ${nutrientText}</p>
+        <p><strong>Classification:</strong> ${measured ? "Includes optional user-entered test results" : "Based on observations only; no measured soil-test values were supplied"}.</p>
+        <div class="notice">These are preliminary rule-based matches, not a laboratory analysis, calibrated agronomic model, or guarantee of crop performance. Crop pH ranges are broad screening guides. Nutrient results are displayed for follow-up but not interpreted here because methods and units vary. Do not apply lime or fertiliser from this score alone.</div>
+        <h3>Crop options to investigate</h3><div class="cards">${cards}</div>
+        <button type="button" class="secondary" id="copySoilToEnquiry">Use these details in my enquiry</button></div>`;
+    document.getElementById("enquiryName").value = data.stName;
+    document.getElementById("enquiryPhone").value = data.stPhone;
+    document.getElementById("enquiryLocation").value = data.stLocation;
+    document.getElementById("enquiryMessage").value = `Soil assessment details:\nTexture: ${data.stTexture}\nColour: ${data.stColour}\nDrainage: ${data.stDrainage}\nCompaction: ${data.stCompaction}\nWater: ${data.stWater}\nGoal: ${data.stGoal}\npH entered: ${data.stPH || "not supplied"}\nN: ${data.stN || "not supplied"}; P: ${data.stP || "not supplied"}; K: ${data.stK || "not supplied"}\nNutrient units: ${data.stUnits || "not supplied"}\nTest source: ${data.stLab || "not supplied"}\nPrevious crop: ${data.stPrevious || "not supplied"}\nOther observations: ${data.stIssues || "none supplied"}\nPreliminary crop matches: ${scores.slice(0,4).map(x=>x.name).join(", ")}\nPlease advise on suitable next steps.`;
+    document.getElementById("copySoilToEnquiry").addEventListener("click", () => {
+        showPage("soiltest");
+        document.getElementById("enquiryMessage").focus();
+        document.getElementById("enquiryMessage").scrollIntoView({behavior:"smooth",block:"center"});
+    });
+}
+
+document.getElementById("soilAssessmentForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const data = getSoilFormData();
+    if (data.stPH !== "" && (!Number.isFinite(Number(data.stPH)) || Number(data.stPH) < 0 || Number(data.stPH) > 14)) {
+        alert("Please enter a soil pH between 0 and 14, or leave it blank if unknown.");
+        return;
+    }
+    createSoilAssessment(data);
+    document.getElementById("soilAssessmentResults").scrollIntoView({behavior:"smooth",block:"start"});
+});
+
+document.getElementById("soilEnquiryForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const name = document.getElementById("enquiryName").value.trim();
+    const phone = document.getElementById("enquiryPhone").value.trim();
+    const location = document.getElementById("enquiryLocation").value.trim();
+    const need = document.getElementById("enquiryNeed").value;
+    const message = document.getElementById("enquiryMessage").value.trim();
+    const subject = `D' Tech Solutions soil and crop enquiry - ${location}`;
+    const status = document.getElementById("soilEnquiryStatus");
+    const sendButton = document.getElementById("sendEnquiryButton");
+
+    // FormSubmit delivers this static-site form to the business email.
+    const payload = new FormData();
+    payload.append("name", name);
+    payload.append("phone", phone);
+    payload.append("farm_location", location);
+    payload.append("request_type", need);
+    payload.append("message", message || "No additional details supplied.");
+    payload.append("_subject", subject);
+    payload.append("_template", "table");
+
+    sendButton.disabled = true;
+    sendButton.textContent = "Sending...";
+    status.textContent = "Sending your enquiry securely through the form service...";
+    status.classList.add("show");
+
+    try {
+        const response = await fetch("https://formsubmit.co/ajax/dktechnologies24@gmail.com", {
+            method: "POST",
+            headers: { "Accept": "application/json" },
+            body: payload
+        });
+        const result = await response.json();
+        if (!response.ok || result.success === "false" || result.success === false) {
+            throw new Error(result.message || "The form service could not accept the enquiry.");
+        }
+        status.textContent = "Thank you! Your enquiry has been submitted. If this is the first submission, check dktechnologies24@gmail.com (including Spam) for a FormSubmit activation email and click its confirmation link. The form will be fully active after verification.";
+        form.reset();
+    } catch (error) {
+        status.textContent = "We could not confirm that your enquiry was sent. Please check your internet connection and try again. If this is the first setup, verify the email activation step. Details: " + (error.message || "unknown error");
+    } finally {
+        sendButton.disabled = false;
+        sendButton.textContent = "Send Enquiry";
+    }
+});
+
+// --------------------------------------------------
+// INITIALISE WEBSITE
+// --------------------------------------------------
+setupSelects();
+
+const today = new Date();
+document.getElementById("plantDate").value =
+    today.getFullYear() + "-" +
+    String(today.getMonth() + 1).padStart(2, "0") + "-" +
+    String(today.getDate()).padStart(2, "0");
+
+document.getElementById("homeLocation").value = selectedLocation;
+
+</script>
+</body>
+</html>
